@@ -50,7 +50,7 @@ pipeline {
             }
         }
 
-        make sure to install pipeline utility steps plugin on jenkin server
+        //make sure to install pipeline utility steps plugin on jenkin server
         stage('Publish Artifact') {
             steps {
                 nexusArtifactUploader(
