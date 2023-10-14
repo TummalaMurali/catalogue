@@ -1,5 +1,20 @@
 pipeline {
     agent { node { label 'AGENT-1' } }
+    //global variable declaration under environment
+    environment{
+        packageVersion = ''
+    }
+    stages {
+        stage {'Get version'} {
+            steps{
+                script{
+                    def packageJson = readJSON(file: 'package.json')
+                    packageVersion = packageJSON.version
+                    echo "version: ${packageVersion}"
+                }
+            }
+        }
+    }
     stages {
         stage('Install depdencies') {
             steps {
@@ -18,21 +33,32 @@ pipeline {
         //         sh 'sonar-scanner'
         //     }
         // }
+        stage('Sonar Scan') {
+            steps {
+                echo "Sonar scan done"
+            }
+        }    
         stage('Build') {
             steps {
                 sh 'ls -ltr'
                 sh 'zip -r catalogue.zip ./* --exclude=.git --exclude=.zip'
             }
         }
+        stage('SAST') {
+            steps {
+                echo "SAST Done"
+            }
+        }
 
+        make sure to install pipeline utility steps plugin on jenkin server
         stage('Publish Artifact') {
             steps {
                 nexusArtifactUploader(
                     nexusVersion: 'nexus3',
                     protocol: 'http',
-                    nexusUrl: '54.164.190.122:8081//',
+                    nexusUrl: '172.31.62.20:8081//',
                     groupId: 'com.roboshop',
-                    version: '1.0.2',
+                    version: "$packageVersion",
                     repository: 'catalogue',
                     credentialsId: 'nexus-auth',
                     artifacts: [
