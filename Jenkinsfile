@@ -42,6 +42,7 @@ pipeline {
                 sh 'zip -r catalogue.zip ./* --exclude=.git --exclude=.zip'
             }
         }
+        //SAST - StaticApplicationSecurityTesting
         stage('SAST') {
             steps {
                 echo "SAST Done"
@@ -68,10 +69,16 @@ pipeline {
                 )
             }
         }
-
+        //here downstream job need to be configured
+        //pass package version deployment
+        //this job will wait until downstream job is over
         stage('Deploy') {
             steps {
                 echo "Deployment"
+                def params = [
+                    string(name: 'version', value: "$packageVersion")
+                ]
+                build job: "../catalogue-deploy", wait: true, parameters: params
             }
         }
     }
