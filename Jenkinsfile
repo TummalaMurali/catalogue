@@ -50,25 +50,25 @@ pipeline {
         }
 
         //make sure to install pipeline utility steps plugin on jenkin server
-        stage('Publish Artifact') {
-            steps {
-                nexusArtifactUploader(
-                    nexusVersion: 'nexus3',
-                    protocol: 'http',
-                    nexusUrl: '172.31.62.20:8081//',
-                    groupId: 'com.roboshop',
-                    version: "$packageVersion",
-                    repository: 'catalogue',
-                    credentialsId: 'nexus-auth',
-                    artifacts: [
-                        [artifactId: 'catalogue',
-                        classifier: '',
-                        file: 'catalogue.zip',
-                        type: 'zip']
-                    ]
-                )
-            }
-        }
+        // stage('Publish Artifact') {
+        //     steps {
+        //         nexusArtifactUploader(
+        //             nexusVersion: 'nexus3',
+        //             protocol: 'http',
+        //             nexusUrl: '172.31.62.20:8081//',
+        //             groupId: 'com.roboshop',
+        //             version: "$packageVersion",
+        //             repository: 'catalogue',
+        //             credentialsId: 'nexus-auth',
+        //             artifacts: [
+        //                 [artifactId: 'catalogue',
+        //                 classifier: '',
+        //                 file: 'catalogue.zip',
+        //                 type: 'zip']
+        //             ]
+        //         )
+        //     }
+        // }
         //here downstream job need to be configured
         //pass package version deployment
         //this job will wait until downstream job is over
