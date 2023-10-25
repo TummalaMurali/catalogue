@@ -73,15 +73,15 @@ pipeline {
         //here downstream job need to be configured
         //pass package version deployment
         //this job will wait until downstream job is over
-        // stage('Deploy') {
-        //     steps {
-        //         echo "Deployment"
-        //         def params = [
-        //             string(name: 'version', value: "$packageVersion")
-        //         ]
-        //         build job: "../catalogue-deploy", wait: true, parameters: params
-        //     }
-        // }
+        stage('Deploy') {
+            steps {
+                echo "Deployment"
+                def params = [
+                    string(name: 'version', value: "$packageVersion")
+                ]
+                build job: "../catalogue-deploy", wait: true, parameters: params
+            }
+        }
     }
 
     post{
